@@ -12,10 +12,11 @@ Using Gemini's API, we create unique questions for various programming languages
 For the frontend, we are using React to translate our Figma designs into working code: CSS, HTML,  JSX. 
 To bridge the frontend and backend, we used Node.js and Express to interact with the database and our parser.
 
-Choose your programming language and difficulty
-1. Get matched with an opponent (or face the Bot)
-2. The gane starts
-3. Both players receive the same the same prompt
-4. Write your code and hit Submit
-5. The game judges your code, assigns a score, and gives feedback
-6. After the match, both players get personalized notes, and a winner is chosen
+How To Play
+1. Choose your programming language and difficulty
+2. Get matched with an opponent (or face the Bot)
+3. The gane starts
+4. Both players receive the same the same prompt
+5. Write your code and hit Submit
+6. The game judges your code, assigns a score, and gives feedback
+7. After the match, both players get personalized notes, and a winner is chosen
