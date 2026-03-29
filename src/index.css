@@ -1,0 +1,35 @@
+/*global styles/colors*/
+/*entire browser*/
+body, html{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #A3241F;
+    font-family: sans-serif;
+    overflow-x: hidden; /*prevents horizontal scrolling*/
+}
+
+#app{
+    width: 1280px;
+    height: 720px;
+    position: relative;
+}
+/*------------------end of entire browser background-----*/
+.logo-container {
+    position: absolute; /* Takes it out of the normal flow */
+    top: 20px;          /* 20 pixels from the top */
+    left: 20px;         /* 20 pixels from the left */
+    text-align: left;   /* Makes sure the text itself isn't centered */
+}
+.title-main{
+    font-size: 80px;
+    margin: 0;
+}
+.title-reflection{
+    font-size:80px;
+    margin: -40px 0 0 0; /*pulls it up to touch top text*/
+    transform: scaleY(-1); /*flips it vertically*/
+    opacity: 0.3; /*makes it lighter for reflection effect*/
+
+}
