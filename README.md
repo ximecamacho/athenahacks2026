@@ -29,7 +29,7 @@ How To Play on the web-game
 ----
 1. Choose your programming language and difficulty
 2. Get matched with an opponent (or face the Bot)
-3. The gane starts
+3. The game starts
 4. Both players receive the same the same prompt
 5. Write your code and hit Submit
 6. The game judges your code, assigns a score, and gives feedback
