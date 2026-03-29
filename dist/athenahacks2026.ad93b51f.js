@@ -721,6 +721,10 @@ var prevRefreshSig = globalThis.$RefreshSig$;
 $parcel$ReactRefreshHelpers$ca65.prelude(module);
 
 try {
+//Entry point for Parcel
+//bundler. 
+//It imports the main App 
+//component and renders it to the DOM.
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _client = require("react-dom/client");
@@ -728,7 +732,7 @@ var _app = require("./App");
 var _appDefault = parcelHelpers.interopDefault(_app);
 (0, _client.createRoot)(document.getElementById("root")).render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _appDefault.default), {}, void 0, false, {
     fileName: "src/index.jsx",
-    lineNumber: 4,
+    lineNumber: 9,
     columnNumber: 52
 }, undefined));
 
@@ -17399,20 +17403,54 @@ var prevRefreshSig = globalThis.$RefreshSig$;
 $parcel$ReactRefreshHelpers$be2d.prelude(module);
 
 try {
+//The App file is the 
+// switch between pages
+// It's THE HOME PAGE! <3 <3 <3 
+// It has strings attached to the baby pages
+// aka, battlescreen.jsx, startmenu.jsx, and Results.jsx
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>App);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react"); //imports React library for building user interfaces
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _indexCss = require("./index.css"); //links to the css file for styling
+// This is the functional component
 function App() {
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-        children: "AthenaHacks 2026"
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        id: "app",
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: "logo-container",
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                    className: "title-main",
+                    children: "BEETLE-BATTLE"
+                }, void 0, false, {
+                    fileName: "src/App.jsx",
+                    lineNumber: 15,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                    className: "title-reflection",
+                    children: "BEETLE-BATTLE"
+                }, void 0, false, {
+                    fileName: "src/App.jsx",
+                    lineNumber: 16,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "src/App.jsx",
+            lineNumber: 14,
+            columnNumber: 7
+        }, this)
     }, void 0, false, {
         fileName: "src/App.jsx",
-        lineNumber: 2,
-        columnNumber: 12
+        lineNumber: 13,
+        columnNumber: 5
     }, this);
 }
 _c = App;
+exports.default = App;
 var _c;
 $RefreshReg$(_c, "App");
 
@@ -17421,7 +17459,7 @@ $RefreshReg$(_c, "App");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./index.css":"irmnC","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"irmnC":[function() {},{}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
