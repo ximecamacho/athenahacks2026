@@ -11,7 +11,7 @@ const BOT_MODE = true;
 const botTimers = new Map(); // matchId -> timeoutId
 
 function scheduleBotSubmission(socket, io, matchId, playerName, question, createdAt) {
-  const botDelay = (20 + Math.floor(Math.random() * 10)) * 1000;
+  const botDelay = (50 + Math.floor(Math.random() * 20)) * 1000;
   const timerId = setTimeout(async () => {
     botTimers.delete(matchId);
     const match = await Match.findOne({ matchId });
@@ -104,51 +104,51 @@ function setupSockets(io) {
     socket.on('find_match', async ({ playerName, language, difficulty }) => {
       if (BOT_MODE) {
         const matchId = generateMatchId();
+        socket.join(matchId);
+
+        socket.emit('match_found', { matchId, opponent: { p1: BOT_NAME, p2: playerName } });
+
+        // Generate question and run countdown in parallel
+        const questionPromise = generateQuestion(language, difficulty);
+
+        const countdownPromise = new Promise((resolve) => {
+          let count = 3;
+          const tick = () => {
+            socket.emit('countdown', { count });
+            count--;
+            if (count >= 0) setTimeout(tick, 1000);
+            else resolve();
+          };
+          setTimeout(tick, 1000);
+        });
 
         let question;
         try {
-          question = await generateQuestion(language, difficulty);
+          [question] = await Promise.all([questionPromise, countdownPromise]);
         } catch (err) {
-          socket.emit('status', { message: 'Failed to generate question. Try again.' });
+          socket.emit('match_error', { message: 'Failed to generate question. Try again.' });
           return;
         }
 
-        await Match.create({
-          matchId,
-          status: 'countdown',
-          language,
-          difficulty,
-          question,
-          players: [
-            { name: BOT_NAME, socketId: BOT_SOCKET_ID },
-            { name: playerName, socketId: socket.id }
-          ]
-        });
+        try {
+          await Match.create({
+            matchId,
+            status: 'active',
+            language,
+            difficulty,
+            question,
+            players: [
+              { name: BOT_NAME, socketId: BOT_SOCKET_ID },
+              { name: playerName, socketId: socket.id }
+            ]
+          });
+        } catch (err) {
+          socket.emit('match_error', { message: 'Failed to create match. Try again.' });
+          return;
+        }
 
-        socket.join(matchId);
-
-        socket.emit('match_found', {
-          matchId,
-          opponent: { p1: BOT_NAME, p2: playerName }
-        });
-
-        let count = 3;
-        const tick = () => {
-          socket.emit('countdown', { count });
-          count--;
-          if (count >= 0) {
-            setTimeout(tick, 1000);
-          } else {
-            Match.updateOne({ matchId }, { status: 'active' }).exec();
-            socket.emit('match_start', {
-              prompt: question.prompt,
-              topic: question.topic
-            });
-
-            scheduleBotSubmission(socket, io, matchId, playerName, question, Date.now());
-          }
-        };
-        setTimeout(tick, 1000);
+        socket.emit('match_start', { prompt: question.prompt, topic: question.topic });
+        scheduleBotSubmission(socket, io, matchId, playerName, question, Date.now());
         return;
       }
 
@@ -239,12 +239,9 @@ function setupSockets(io) {
       }
 
       if (judgment.correct) {
-        playerEntry.submitted = true;
-        playerEntry.code = code;
-        playerEntry.score = judgment.partialScore;
-        playerEntry.timeTaken = timeTaken;
-        playerEntry.feedback = judgment.feedback;
-        match.markModified('players');
+        // Re-fetch to avoid race with bot timer
+        const freshMatch = await Match.findOne({ matchId });
+        if (!freshMatch || freshMatch.status !== 'active') return;
 
         // Cancel bot timer — player won first
         if (BOT_MODE && botTimers.has(matchId)) {
@@ -252,9 +249,18 @@ function setupSockets(io) {
           botTimers.delete(matchId);
         }
 
-        match.status = 'finished';
-        match.winnerId = playerName;
-        await match.save();
+        const freshPlayerEntry = freshMatch.players.find(p => p.name === playerName);
+        if (!freshPlayerEntry) return;
+        freshPlayerEntry.submitted = true;
+        freshPlayerEntry.code = code;
+        freshPlayerEntry.score = judgment.partialScore;
+        freshPlayerEntry.timeTaken = timeTaken;
+        freshPlayerEntry.feedback = judgment.feedback;
+        freshMatch.markModified('players');
+
+        freshMatch.status = 'finished';
+        freshMatch.winnerId = playerName;
+        await freshMatch.save();
 
         socket.emit('submission_result', {
           correct: true,
@@ -263,14 +269,14 @@ function setupSockets(io) {
           hint: null
         });
 
-        const opponentEntry = match.players.find(p => p.name !== playerName);
+        const opponentEntry = freshMatch.players.find(p => p.name !== playerName);
 
         let matchFeedback = { winnerNote: '', loserNote: '', keyLesson: '' };
         try {
           matchFeedback = await generateMatchFeedback(
             code,
             opponentEntry ? opponentEntry.code : '',
-            match.question
+            freshMatch.question
           );
         } catch (_) {}
 
@@ -278,8 +284,8 @@ function setupSockets(io) {
 
         io.to(matchId).emit('match_over', {
           winner: playerName,
-          round: match.round,
-          scores: match.players.map(p => ({ name: p.name, score: p.score, timeTaken: p.timeTaken })),
+          round: freshMatch.round,
+          scores: freshMatch.players.map(p => ({ name: p.name, score: p.score, timeTaken: p.timeTaken })),
           feedback: matchFeedback,
           leaderboard: topPlayers
         });
@@ -295,27 +301,32 @@ function setupSockets(io) {
           botTimers.delete(matchId);
         }
 
-        // Reset bot's submitted state so it's fresh for the retry
-        const botEntry = match.players.find(p => p.name === BOT_NAME);
-        if (botEntry) {
-          botEntry.submitted = false;
-          botEntry.code = '';
-          botEntry.score = 0;
-          botEntry.timeTaken = 0;
-          botEntry.feedback = '';
-        }
-        match.markModified('players');
-        await match.save();
+        // Re-fetch to check if bot already won during checkCode evaluation
+        const retryMatch = await Match.findOne({ matchId });
+        if (!retryMatch || retryMatch.status !== 'active') return;
+
+        // Reset bot's submitted state using atomic update to avoid version conflicts
+        await Match.updateOne(
+          { matchId, status: 'active' },
+          { $set: {
+            'players.$[bot].submitted': false,
+            'players.$[bot].code': '',
+            'players.$[bot].score': 0,
+            'players.$[bot].timeTaken': 0,
+            'players.$[bot].feedback': ''
+          }},
+          { arrayFilters: [{ 'bot.name': BOT_NAME }] }
+        );
 
         socket.emit('wrong_answer', {
           feedback: judgment.feedback,
           hint: judgment.hint,
-          prompt: match.question.prompt,
-          topic: match.question.topic
+          prompt: retryMatch.question.prompt,
+          topic: retryMatch.question.topic
         });
 
         // Re-schedule bot for the retry attempt
-        scheduleBotSubmission(socket, io, matchId, playerName, match.question, Date.now());
+        scheduleBotSubmission(socket, io, matchId, playerName, retryMatch.question, Date.now());
       }
     });
 

@@ -105,7 +105,6 @@ body, html{
     position:absolute;
     border:none;
     cursor: pointer;
-    border-radius: 50px; 
     border-radius: 50px;
     top: 50px;
     left:10px;
@@ -238,32 +237,233 @@ body, html{
 
 
 /*-----------------beginning of battle arena---------*/
+.battle-screen {
+    width: 1280px;
+    min-height: 720px;
+    background-color: #A3241F;
+    overflow-y: auto;
+    padding-bottom: 40px;
+}
+
 .div-vectors {
-    margin-top: 50px; /* Reduced from 1000px so it fits the 720px screen */
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 100px;
+    gap: 80px;
+    padding: 10px 0;
+}
+
+.beetle-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.beetle-label {
+    color: #E2D37A;
+    font-family: "Chelsea Market";
+    font-size: 20px;
+    margin: 0;
 }
 
 .title-lady-bug-container {
     text-align: center;
-    margin-top: 40px;
+    padding-top: 20px;
 }
 
 .lady-bug-style {
     color: #3D1A12;
     font-family: "Chelsea Market";
-    font-size: 70px;
+    font-size: 60px;
     font-weight: 400;
     letter-spacing: 0.5px;
-    margin: 0; /* Keeps it tight */
+    margin: 0;
 }
 
-/* Make sure the SVGs don't take up the whole universe */
-.div-vectors svg {
-    width: 250px;
-    height: auto;
-    filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.3)); /* Adds some depth! */
+.countdown-display {
+    color: #E2D37A;
+    font-family: "Chelsea Market";
+    font-size: 80px;
+    font-weight: bold;
+    min-width: 120px;
+    text-align: center;
+}
+
+/*--- question box ---*/
+.battle-question {
+    background-color: #351710;
+    border: 3px solid #E2D37A;
+    margin: 15px 60px;
+    padding: 20px 30px;
+    border-radius: 8px;
+}
+
+.question-text {
+    color: #E2D37A;
+    font-family: "Chelsea Market";
+    font-size: 18px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/*--- hint box ---*/
+.battle-hint {
+    background-color: #5a1a10;
+    border-left: 4px solid #E2D37A;
+    margin: 8px 60px;
+    padding: 10px 20px;
+    color: #E2D37A;
+    font-family: "Chelsea Market";
+    font-size: 16px;
+}
+
+.hint-wrong {
+    color: #ff9a9a;
+    font-weight: bold;
+    margin: 0 0 6px 0;
+}
+
+/*--- code editors ---*/
+.battle-editors {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin: 15px 60px;
+}
+
+.editor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.editor-label {
+    color: #E2D37A;
+    font-family: "Chelsea Market";
+    font-size: 20px;
+    margin: 0;
+    background-color: #351710;
+    padding: 8px 15px;
+    border-radius: 4px 4px 0 0;
+}
+
+.code-textarea {
+    width: 100%;
+    height: 220px;
+    background-color: #1e0f0a;
+    color: #E2D37A;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    border: 2px solid #351710;
+    padding: 12px;
+    resize: none;
+    border-radius: 0 0 4px 4px;
+    box-sizing: border-box;
+}
+
+.code-textarea:focus {
+    outline: none;
+    border-color: #E2D37A;
+}
+
+.bot-blurred {
+    filter: blur(5px);
+    user-select: none;
+    pointer-events: none;
+}
+
+/*--- submit button ---*/
+.submit-btn {
+    background-color: #E2D37A;
+    color: #351710;
+    font-family: "Chelsea Market";
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    padding: 12px 40px;
+    cursor: pointer;
+    border-radius: 50px;
+    align-self: flex-start;
+    transition: transform 0.2s;
+}
+
+.submit-btn:hover {
+    transform: scale(1.05);
+}
+
+/*--- result box ---*/
+.battle-result {
+    background-color: #351710;
+    border: 3px solid #E2D37A;
+    margin: 15px 60px;
+    padding: 25px 30px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.result-winner {
+    color: #E2D37A;
+    font-family: "Chelsea Market";
+    font-size: 40px;
+    margin: 0 0 15px 0;
+}
+
+.battle-result p {
+    color: #E2D37A;
+    font-family: "Chelsea Market";
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.key-lesson {
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.result-loss {
+    color: #ff9a9a;
+}
+
+.encourage-msg {
+    color: #E2D37A;
+    font-size: 18px;
+    margin: 5px 0 10px 0;
+}
+
+.retry-question {
+    background-color: #3a1008;
+    border: 2px dashed #E2D37A;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.result-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.next-round-btn {
+    background-color: #526022;
+    color: #E2D37A;
+}
+
+/*--- back button ---*/
+.back-btn {
+    background-color: #d5978a;
+    color: #351710;
+    font-family: "Chelsea Market";
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    border-radius: 50px;
+    margin: 10px 60px;
 }

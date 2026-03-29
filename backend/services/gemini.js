@@ -36,27 +36,31 @@ Respond ONLY with JSON in this format:
 }
 
 async function checkCode(playerCode, question, language) {
-  const prompt = `You are a code judge.
-The player was given this challenge: "${question.prompt}"
-Expected output: "${question.expectedOutput}"
-The player submitted this ${language} code: ${playerCode}
+  const prompt = `Simulate running this ${language} code. Reply with ONLY the exact text it would print to stdout — nothing else, no explanation.
 
-Respond ONLY with JSON in this format:
-{
-  "correct": true,
-  "partialScore": 0,
-  "feedback": "one or two sentences about their code",
-  "hint": "one sentence nudge if they were wrong"
-}`;
+Code:
+${playerCode}`;
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-pro",
     contents: prompt,
   });
 
-  const text = response.text;
-  const cleaned = text.replace(/```json|```/g, "").trim();
-  return JSON.parse(cleaned);
+  const predicted = response.text.trim();
+  const expected = question.expectedOutput.trim();
+
+  const correct = predicted === expected ||
+    predicted.replace(/['"]/g, '') === expected.replace(/['"]/g, '') ||
+    predicted.toLowerCase() === expected.toLowerCase();
+
+  return {
+    correct,
+    partialScore: correct ? 100 : 0,
+    feedback: correct
+      ? "Great job! Your code produces the correct output."
+      : `Your code prints "${predicted}" but the expected output is "${expected}".`,
+    hint: correct ? "" : `Expected output: ${expected}`
+  };
 }
 
 async function generateMatchFeedback(winnerCode, loserCode, question) {

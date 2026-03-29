@@ -9,7 +9,7 @@ router.post('/player', async (req, res) => {
     if (!playerName) return res.status(400).json({ error: 'playerName required' });
     await Player.findOneAndUpdate(
       { playerName },
-      { lastPlayed: new Date() },
+      { $set: { lastPlayed: new Date() }, $setOnInsert: { wins: 0, totalMatches: 0, avgScore: 0, avgTime: 0, winStreak: 0 } },
       { upsert: true, new: true }
     );
     res.json({ ok: true });
