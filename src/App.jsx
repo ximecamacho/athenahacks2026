@@ -11,6 +11,7 @@ import './index.css'; //links to the css file for styling
 function App() {
   return (
     <div id="app"> 
+   
       <div className="logo-container">
         <h1 className="title-main">BEETLE-BATTLE</h1>
         <h1 className="title-reflection">BEETLE-BATTLE</h1>
