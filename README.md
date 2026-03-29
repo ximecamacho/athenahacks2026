@@ -1,6 +1,6 @@
 ˚₊‧ʚ🐞ɞ‧₊˚ Beetle Battle ˚₊‧ʚ🐞ɞ‧₊˚
 ----
-"Like a lady-bug, their spots are unique. Every individual has a programming signature that's waiting to be shined upon."
+"Like a lady-bug, their spots are unique. Every individual has a programming signature that's waiting to be shined upon." -Samantha
 --
 Code, Compete, Create. (Your opponent is the Asian Lady Beetle (an imposter) you must defeat through honing your own beauty. 
 An educational syntax game that teaches you how to code by making you compete with your friends and family, or even a bot. (in case you're lonely)
