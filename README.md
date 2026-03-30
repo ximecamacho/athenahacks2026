@@ -191,9 +191,10 @@ Figma · VSCode · React · Vite · Node.js · Express · Socket.io · MongoDB �
 | Name | Role |
 |------|------|
 | Samantha Reap | Full-Stack Lead & UI/UX Designer |
+| Khushi Patel | Developer |
 | Allyson Le | Developer |
 | Ximena Camacho | Developer |
-| Khushi Patel | Developer |
+
 
 ---
 
