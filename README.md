@@ -1,103 +1,133 @@
 # ˚₊‧ʚ🐞ɞ‧₊˚ Beetle Battle ˚₊‧ʚ🐞ɞ‧₊˚
 
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-v18+-339933?style=flat-square&logo=node.js&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-4.8-010101?style=flat-square&logo=socket.io&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini-AI-4285F4?style=flat-square&logo=google&logoColor=white)
+
+`Matchmaking` `Code Battle` `Leaderboard` `AI Judging` `Multi-Language`
+
+Race a player. Defeat the imposter. Prove your syntax is your own.
+
 > *"Like a lady-bug, their spots are unique. Similarly, every individual has a programming signature that's waiting to be shined upon."* — Samantha
 
-**Code. Compete. Create.**
-
-Your opponent is the Asian Lady Beetle (an imposter) — you must defeat them by honing your own beauty.
-
-An educational syntax game that teaches you how to code by making you compete with your friends and family, or even a bot *(in case you're lonely)*.
-
 ---
 
-## About The Project
+## 🐞 What Beetle Battle Does
 
-With the exponential growth of AI, computer science has never been more accessible than now *(so it seems)*.
+This is a **competitive syntax trainer**, not a tutorial.
 
-However, using AI is only filtering out "turned on" and "turned off" brains. So, to stop this issue from widening, we have created **"Beat"le Battle** — a competitive syntax trainer.
+Beetle Battle scans your ability to write real code under pressure — no autocomplete, no AI, no hints — by matching you against another player (or a bot) in real time. Both players receive the same prompt and race to produce the correct output across 3 difficulty levels and 3 languages.
 
-Beetle Battle helps students learn and memorize coding syntax without an AI crutch by giving them a prompt and requiring them to write the code while racing against time and a player.
-
-Writing code is aimed to force users to take the time to process the prompt, think about syntax, and attack.
-
-This game cultivates a fierce environment for any developer to mature into a confident programmer.
-
----
-
-## What This Project Includes
-
-- **Backend** built in JavaScript with **MongoDB** to store players' stats
-- **Gemini API** to generate unique questions for various programming languages and parse users' code to assign a proper score
-- **Frontend** built with React translating Figma designs into working code: CSS, HTML, JSX
-- **Node.js + Express** bridging the frontend and backend to interact with the database and parser
-
----
-
-## How To Play
-
-1. Choose your programming language and difficulty
-2. Get matched with an opponent (or face the Bot)
-3. The game starts
-4. Both players receive the same prompt
-5. Write your code and hit Submit
-6. The game judges your code, assigns a score, and gives feedback
-7. After the match, both players get personalized notes and a winner is chosen
-
-Built during **AthenaHacks 2026** — this project transforms the dry experience of algorithm practice into a competitive, fast-paced environment.
-
----
-
-## ✨ Key Features
-
-**Custom SVG UI**
-Everything was made using shapes in HTML, inspired through Figma. The Ladybug "Play" button, "Leaf" battle arenas, and mushroom difficulty buttons are all built entirely from scalable, code-driven SVG shapes.
-
-**Gemini AI Integration**
-Utilizes Google's Gemini API to evaluate code quality, generate difficulty-appropriate prompts, and provide real-time snarky feedback to help you defeat your opponent and move forward.
-
-**Multiplayer Matchmaking**
-Real-time synchronization using Socket.io to find opponents of similar skill levels.
-
-**Live Leaderboard**
-A scrolling, persistent ranking system powered by MongoDB to track the top-tier "Beetle Kings."
-
-**Multi-Language Support**
-Practice in Python, JavaScript, or Java with tailored logic prompts.
+The pipeline combines **AI-generated questions** (fully unique per match) with **Gemini-powered code evaluation**, producing a live battle arena with a persistent leaderboard and personalized post-match feedback.
 
 ---
 
 ## 📸 Visuals
 
-| Home Menu | Battle Arena | Results |
-|-----------|-------------|---------|
-| Customize difficulty, language, and name | Real-time code input on interactive leaf vectors | Personalized feedback and winner announcement |
+**Home — Choose your fighter, language, and difficulty**
+![Home Screen](assets/home.png)
+
+**Arena — You vs. the Asian Lady Beetle (SyntaxBot)**
+![Battle Screen](assets/matchup.png)
+
+**Victory — Correct output, Gemini feedback, next round**
+![Win Screen](assets/battle-win.png)
+
+**Defeat — Don't give up. Try the same question again.**
+![Retry Screen](assets/battle-retry.png)
 
 ---
 
-## 🚀 Getting Started
+## ⚔️ 3 Difficulty Levels
 
-### Prerequisites
+| | Level | What it tests |
+|-|-------|---------------|
+| 🍄 | Easy | Print statements, variables, basic syntax |
+| 🍄🍄 | Medium | Arithmetic, simple functions, conditionals |
+| 🍄🍄🍄 | Hard | Algorithms — min/max, string reversal, counting |
 
-- Node.js v18 or higher
-- MongoDB (local or Atlas)
-- Google Gemini API key
+---
 
-### Installation
+## 🌐 3 Languages
+
+| | Language | Example prompt |
+|-|----------|----------------|
+| 🐍 | Python | *"Create a variable named `greeting` and assign it `'Hello, Python!'`. Then print it."* |
+| 🟨 | JavaScript | *"Declare a `const` named `sum` that stores the result of adding 14 and 28. Log it."* |
+| ☕ | Java | *"Write a method that takes a String and returns it reversed."* |
+
+---
+
+## 🤖 Game Pipeline
+
+| | Step | What happens |
+|-|------|--------------|
+| 🎯 | Question Generation | Gemini creates a unique prompt per language + difficulty |
+| ⚡ | Matchmaking | Socket.io pairs two players (or spawns SyntaxBot) in real time |
+| ⏱️ | Live Battle | Both players code simultaneously — same prompt, same clock |
+| 🧠 | Code Evaluation | Gemini simulates execution and compares against expected output |
+| 💬 | Feedback | Hints on failure, personalized notes on victory |
+| 🏆 | Leaderboard | MongoDB updates wins, scores, streaks, and average time |
+
+---
+
+## ✨ Key Features
+
+**🍃 Custom SVG UI**
+Every shape was built from code — no image assets. The Ladybug "Play" button, Leaf battle arenas, and Mushroom difficulty selectors are all scalable, hand-coded SVG shapes inspired by Figma designs.
+
+**🤖 Gemini AI Integration**
+Google Gemini (`gemini-2.5-pro`) generates every question uniquely, evaluates your code's output, and delivers real-time feedback. No two matches are the same.
+
+**⚡ Real-Time Multiplayer**
+Socket.io keeps both players in sync — same prompt, same countdown, live opponent status. SyntaxBot enabled by default with a 25-second timer.
+
+**🏆 Live Leaderboard**
+Persistent rankings via MongoDB tracking wins, total matches, average score, average time, and win streak. Climb the ranks and become a Beetle King.
+
+---
+
+## 📊 Screens
+
+| Screen | What's inside |
+|--------|---------------|
+| 🏠 Home | Fighter name · Language · Difficulty · Live leaderboard · Play button |
+| ⚔️ Battle | Prompt · Your code editor · Opponent's blurred editor · Hearts (lives) |
+| 🏆 You Win | Score · Gemini feedback · "Next Round" button |
+| 💀 Don't Give Up | Hint · Prompt repeated · "Try Again" or "Back to Menu" |
+
+---
+
+## ⚡ Quick Start
 
 ```bash
+# 1. Clone
 git clone https://github.com/ximecamacho/beetlebattle.git
 cd athenahacks2026
 
-# Install frontend dependencies
+# 2. Install dependencies
 npm install
-
-# Install backend dependencies
 cd backend && npm install && cd ..
+
+# 3. Add environment variables
+# Create backend/.env with the values below
+
+# 4. Run the backend
+cd backend && npm run dev
+
+# 5. Run the frontend (separate terminal)
+npm start
 ```
 
-### Environment Setup
+App opens at `http://localhost:5173`
 
-Create a `backend/.env` file and add:
+---
+
+## 🔑 Environment Variables
+
+Create `backend/.env`:
 
 ```env
 PORT=5000
@@ -105,53 +135,74 @@ MONGODB_URI=your_mongodb_connection_string
 GEMINI_API_KEY=your_google_gemini_key
 ```
 
-### Run the Application
+---
 
-```bash
-# Terminal 1 — backend
-cd backend
-npm run dev
+## 📁 Project Structure
 
-# Terminal 2 — frontend
-npm start
 ```
-
-The app will be running at `http://localhost:5173`.
+athenahacks2026/
+├── src/
+│   ├── App.jsx                 ← Main app + screen router (home / battle / results)
+│   ├── BattleScreen.jsx        ← Live arena UI with SVG editors
+│   ├── Results.jsx             ← Match results + feedback screen
+│   └── index.css               ← Global styles (Chelsea Market font, beetle theme)
+│
+├── backend/
+│   ├── server.js               ← Express + Socket.io entry point
+│   ├── sockets/game.js         ← Real-time game logic, matchmaking, bot mode
+│   ├── services/gemini.js      ← Question generation, code eval, feedback
+│   ├── routes/room.js          ← REST API (player, leaderboard, match)
+│   └── db/
+│       ├── connect.js          ← MongoDB connection
+│       └── models/             ← Player and Match schemas
+│
+├── assets/                     ← Screenshots
+├── vite.config.js              ← Vite config + proxy to backend
+├── package.json
+└── .gitignore
+```
 
 ---
 
-## 🎮 Usage Instructions
+## 🎮 How To Play
 
-**Identity** — Enter your "Fighter Name" in the input field.
+- **Identity** — Enter your Fighter Name
+- **Strategy** — Pick your language and difficulty (Mushroom buttons)
+- **Deploy** — Click the Ladybug Play Button to enter the queue
+- **Battle** — Read the prompt, write your solution in the right-hand editor, hit RUN
+- **Win** — Correct output beats your opponent. Wrong answer? You get a hint and try again.
 
-**Strategy** — Select your preferred coding language and difficulty level (Mushroom buttons).
+---
 
-**Deploy** — Click the Ladybug Play Button to enter the matchmaking queue.
+## ⚠️ Framing
 
-**Battle** — Once in the arena, read the Code Prompt at the top. Type your solution into the right-hand leaf and click RUN to strike your opponent!
+Beetle Battle does not teach you to Google. It does not autocomplete. It does not forgive bad syntax. Every prompt is a hypothesis: *can you write this without help?* The leaderboard surfaces who can — and who can't yet.
 
 ---
 
 ## 🛠️ Built With
 
-Figma, VSCode, React, Node.js, Express, Socket.io, MongoDB, Google Gemini API, CSS, JavaScript
+Figma · VSCode · React · Vite · Node.js · Express · Socket.io · MongoDB · Google Gemini API · CSS · JavaScript
 
 ---
 
-## 👾 Team — The Bug Hunters
+## 👾 The Bug Hunters — AthenaHacks 2026
 
 | Name | Role |
 |------|------|
 | Samantha Reap | Full-Stack Lead & UI/UX Designer |
-| Khushi Patel | Developer |
 | Allyson Le | Developer |
 | Ximena Camacho | Developer |
-
+| Khushi Patel | Developer |
 
 ---
 
 ## 🗺️ Future Roadmap
 
-- Various language compilers
-- More game modes
-- Sneaky attacks like banana peels to throw at your opponent
+- [ ] Live language compilers (run code server-side)
+- [ ] More game modes
+- [ ] Sneaky attacks — throw banana peels at your opponent mid-battle
+
+---
+
+*˚₊‧ʚ🐞ɞ‧₊˚ May your spots shine brightest ˚₊‧ʚ🐞ɞ‧₊˚*
